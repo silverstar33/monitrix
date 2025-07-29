@@ -57,17 +57,16 @@ monitrix/
 │       └── screenshot_dark.png
 ├── requirements.txt
 └── README.md
-
 ```
 
-📦 Future Enhancements
- Package dashboard & agent as a .exe (single-click)
+##📦 Future Enhancements
+- Package dashboard & agent as a .exe (single-click)
+-Add Slack/Email alerting system
+-Add Docker support for easy deployment
+-More Features will be added according to Requirements and needs
+---
 
- Add Slack/Email alerting system
-
- Add Docker support for easy deployment
-
- More Features will be added according to Requirements and needs
+## 🧡 Made with love in India 🇮🇳
 
 
 
