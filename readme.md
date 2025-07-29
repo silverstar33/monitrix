@@ -1,7 +1,7 @@
 # 🖥️ Monitrix - Server Monitoring Dashboard
 
-![Monitrix Screenshot](dashboard/assets/screenshot_light.png) 
 ![Monitrix Screenshot](dashboard/assets/screenshot_dark.png)
+![Monitrix Screenshot](dashboard/assets/screenshot_light.png)
 
 **Monitrix** is a real-time server monitoring dashboard built with FastAPI, WebSockets, and Chart.js. It features live metrics for CPU, memory, and disk usage with interactive charts, dark/light theme toggle, and responsive UI.
 
@@ -61,12 +61,11 @@ monitrix/
 ├── requirements.txt
 └── README.md
 
+---
 ##📦 Future Enhancements 
  Package agent + dashboard as .exe
-
  Add Slack/Email alert integration
-
  Monitor multiple machines via IP
-
- Docker support
+ More Features will be added according to Requirements
+ 
 
