@@ -60,3 +60,13 @@ monitrix/
 │       └── screenshot_dark.png
 ├── requirements.txt
 └── README.md
+
+##📦 Future Enhancements 
+ Package agent + dashboard as .exe
+
+ Add Slack/Email alert integration
+
+ Monitor multiple machines via IP
+
+ Docker support
+
