@@ -1,0 +1,71 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+*.tmp
+
+# Python environment
+*.env
+.env.*
+.envrc
+
+# Dependency lock files (optional)
+poetry.lock
+Pipfile.lock
+
+# Compiled files
+*.so
+
+# Database or state
+*.db
+*.sqlite3
+
+# Build and packaging
+build/
+dist/
+*.egg-info/
+*.egg
+*.whl
+
+# Node-related (if you add npm or frontend build tools)
+node_modules/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+
+# PyInstaller
+*.spec
+
+# Backup files
+*.bak
+*.swp
+*~
+
+# Test output
+.pytest_cache/

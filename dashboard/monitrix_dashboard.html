@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Monitrix - Server Monitoring Dashboard</title>
+
+  <!-- Fonts and Bootstrap -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="icon" type="image/x-icon" href="/dashboard/assets/favicon2.ico">
+
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #111;
+      --card: #fff;
+      --header-bg: #ffffff;
+      --header-text: #111;
+      --toggle-bg: #00C288;
+      --toggle-text: rgb(7, 7, 7);
+      --toggle-hover-bg: #00C288;
+      --toggle-hover-text: #000;
+    }
+
+    .dark-mode {
+      --bg: #111;
+      --text: #f9f9f9;
+      --card: #1c1c1c;
+      --header-bg: #000;
+      --header-text: #ffffff;
+      --toggle-bg: #00C288;
+      --toggle-text: #f9f9f9;
+      --toggle-hover-bg: #00C288;
+      --toggle-hover-text: #f9f9f9;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 25px;
+      background-color: var(--header-bg);
+      color: var(--header-text);
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+}
+
+
+
+   .title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+
+    .container {
+      padding: 30px;
+    }
+
+    .card {
+      background-color: var(--card);
+      color: var(--text);
+      border: none;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0,255,0,0.2);
+    }
+
+    .value {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .toggle-btn {
+      background-color: transparent;
+      color: var(--toggle-text);
+      border: 1px solid var(--toggle-bg);
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-btn:hover {
+      background-color: var(--toggle-hover-bg);
+      color: var(--toggle-hover-text);
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0,255,0,0.3);
+      border-top: 4px solid #00C288;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 40px auto;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header d-flex justify-content-between align-items-center">
+  <div style="width: 33%;"></div>
+  
+  <div class="d-flex align-items-center justify-content-center" style="width: 34%;">
+    <img id="logo" src="/dashboard/assets/logo_black.png" alt="Monitrix Logo" class="logo" />
+    <div class="title ms-2">Monitrix - Server Monitoring</div>
+  </div>
+
+  <div style="width: 33%;" class="text-end">
+    <button class="toggle-btn" onclick="toggleTheme()">🌗 Dark Mode</button>
+  </div>
+</div>
+
+
+
+  <div class="container" id="main-content" style="display:none;">
+    <h5>🖥️ Host: <span id="host">--</span></h5>
+    <div class="row g-3 mt-2">
+      <div class="col-md-4">
+        <div class="card h-100" id="cpu-card">
+          <div class="card-body">
+            <h5 class="card-title">CPU Usage</h5>
+            <p class="value" id="cpu">--%</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100" id="memory-card">
+          <div class="card-body">
+            <h5 class="card-title">Memory Usage</h5>
+            <p class="value" id="memory">--%</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100" id="disk-card">
+          <div class="card-body">
+            <h5 class="card-title">Disk Usage</h5>
+            <p class="value" id="disk">--%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <h4>📈 Live Metrics Charts</h4>
+      <div class="row">
+        <div class="col-md-4"><canvas id="cpuChart" height="250"></canvas></div>
+        <div class="col-md-4"><canvas id="memoryChart" height="250"></canvas></div>
+        <div class="col-md-4"><canvas id="diskChart" height="250"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading" class="spinner"></div>
+
+  <script>
+    const ws = new WebSocket("ws://localhost:8000/ws/metrics");
+
+    const cpuData = [], memData = [], diskData = [], labels = [];
+
+    const chartConfig = (label, data, color) => ({
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: label,
+          data: data,
+          fill: true,
+          borderColor: color,
+          backgroundColor: color + '33',
+          tension: 0.3,
+          pointRadius: 0
+        }]
+      },
+      options: {
+        animation: false,
+        scales: {
+          y: { beginAtZero: true, max: 100 },
+          x: { display: false }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    const cpuChart = new Chart(document.getElementById("cpuChart"), chartConfig("CPU", cpuData, "#0d6efd"));
+    const memChart = new Chart(document.getElementById("memoryChart"), chartConfig("Memory", memData, "#198754"));
+    const diskChart = new Chart(document.getElementById("diskChart"), chartConfig("Disk", diskData, "#ffc107"));
+
+    ws.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+      const ts = new Date().toLocaleTimeString();
+
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("main-content").style.display = "block";
+
+      document.getElementById("host").innerText = data.hostname ?? "--";
+      document.getElementById("cpu").innerText = (data.cpu_percent !== undefined) ? data.cpu_percent + "%" : "--%";
+      document.getElementById("memory").innerText = (data.memory_percent !== undefined) ? data.memory_percent + "%" : "--%";
+      document.getElementById("disk").innerText = (data.disk_percent !== undefined) ? data.disk_percent + "%" : "--%";
+
+
+      setCardColor("cpu-card", data.cpu_percent, 80);
+      setCardColor("memory-card", data.memory_percent, 70);
+      setCardColor("disk-card", data.disk_percent, 85);
+
+      if (labels.length > 30) {
+        labels.shift(); cpuData.shift(); memData.shift(); diskData.shift();
+      }
+
+      labels.push(ts);
+      cpuData.push(data.cpu_percent);
+      memData.push(data.memory_percent);
+      diskData.push(data.disk_percent);
+
+      cpuChart.update();
+      memChart.update();
+      diskChart.update();
+    };
+
+    function setCardColor(id, value, threshold) {
+      const card = document.getElementById(id);
+      card.classList.remove("bg-danger", "bg-warning", "bg-success", "text-white", "text-dark");
+
+      if (value >= threshold + 10) {
+        card.classList.add("bg-danger", "text-white");
+      } else if (value >= threshold) {
+        card.classList.add("bg-warning", "text-dark");
+      } else {
+        card.classList.add("bg-success", "text-white");
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+      const logo = document.getElementById("logo");
+      const btn = document.querySelector(".toggle-btn");
+      const isDark = document.body.classList.contains("dark-mode");
+      logo.src = isDark ? "/dashboard/assets/logo_green.png" : "/dashboard/assets/logo_black.png";
+      btn.innerText = isDark ? "☀️ Light Mode" : "🌗 Dark Mode";
+    }
+  </script>
+</body>
+</html>
