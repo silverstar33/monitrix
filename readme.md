@@ -44,9 +44,6 @@ Then open in browser:
 📍 http://localhost:8000
 
 🗂️ Folder Structure
-bash
-Copy
-Edit
 monitrix/
 ├── main.py                 # FastAPI backend
 ├── monitor_agent.py        # Sends real-time metrics
@@ -61,11 +58,16 @@ monitrix/
 ├── requirements.txt
 └── README.md
 
----
-##📦 Future Enhancements 
- Package agent + dashboard as .exe
- Add Slack/Email alert integration
- Monitor multiple machines via IP
- More Features will be added according to Requirements
- 
+```
+
+📦 Future Enhancements
+ Package dashboard & agent as a .exe (single-click)
+
+ Add Slack/Email alerting system
+
+ Add Docker support for easy deployment
+
+ More Features will be added according to Requirements and needs
+
+
 
