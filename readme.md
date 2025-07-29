@@ -56,7 +56,8 @@ monitrix/
 │       ├── screenshot_light.png
 │       └── screenshot_dark.png
 ├── requirements.txt
-└── README.md
+├── README.md
+└── run.sh                  # Logos, favicon, screenshots
 ```
 ### 📦 Future Enhancements
 - Package dashboard & agent as a .exe (single-click)
