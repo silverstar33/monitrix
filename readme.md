@@ -63,7 +63,7 @@ monitrix/
 
 Monitrix solves real-world problems faced by developers, sysadmins, and home server enthusiasts:
 
-- ✅ Most tools like Prometheus or Grafana are overkill for personal projects or small teams. 
+- Most tools like Prometheus or Grafana are overkill for personal projects or small teams. 
 - Monitrix gives you a lightweight, self-hosted dashboard that shows live CPU, memory, and disk usage — all without complex setup or a steep learning curve.
 
 
