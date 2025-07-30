@@ -59,6 +59,40 @@ monitrix/
 ├── README.md
 └── run.sh                  # Use Git Bash or WSL (Windows Subsystem for Linux) to run run.sh directly
 ```
+### 💡 Why Use Monitrix?
+
+Monitrix solves real-world problems faced by developers, sysadmins, and home server enthusiasts:
+
+- ✅ Real-Time Server Monitoring Made Easy
+Most tools like Prometheus or Grafana are overkill for personal projects or small teams. Monitrix gives you a lightweight, self-hosted dashboard that shows live CPU, memory, and disk usage — all without complex setup or a steep learning curve.
+
+Built with FastAPI, WebSockets, and Chart.js, Monitrix is designed for simplicity, speed, and full control.
+---
+
+## 🧑‍💻 For Developers & Self-Hosters
+🔧 Self-host in minutes with FastAPI + Python
+
+📈 Real-time metrics via WebSockets (CPU, Memory, Disk)
+
+🎨 Responsive UI with dark/light mode toggle
+
+🚀 Zero bloat, only essentials – Easy to run, hack, and extend
+
+🖥️ Run anywhere – Raspberry Pi, VPS, cloud, or home server
+
+## 🌐 For Non-Technical Users / SaaS Vision
+🛡️ Peace of Mind – Know your servers are running smoothly 24/7
+
+🧩 No Setup Headache – Just run one script and start monitoring
+
+📊 Instant Insights – Visualize performance without logging in to terminals
+
+☁️ Use it as a Service – Let us host and handle everything (coming soon)
+
+⚙️ Zero Dev Skills Needed – Clean UI with real-time feedback
+---
+
+
 ### 📦 Future Enhancements
 - Package dashboard & agent as a .exe (single-click)
 - Add Slack/Email alerting system
