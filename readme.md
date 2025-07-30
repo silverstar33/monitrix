@@ -57,7 +57,7 @@ monitrix/
 │       └── screenshot_dark.png
 ├── requirements.txt
 ├── README.md
-└── run.sh                  # Logos, favicon, screenshots
+└── run.sh                  # Use Git Bash or WSL (Windows Subsystem for Linux) to run run.sh directly
 ```
 ### 📦 Future Enhancements
 - Package dashboard & agent as a .exe (single-click)
